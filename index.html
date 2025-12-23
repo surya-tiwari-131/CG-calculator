@@ -3,321 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SVNIT First Semester CGPA Calculator</title>
+    <title>SVNIT SGPA Analyzer | Designed by Surya</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&display=swap');
         
         :root {
-            --primary: #10b981;
-            --primary-glow: rgba(16, 185, 129, 0.4);
-            --accent: #3b82f6;
-            --bg-dark: #020617;
+            --emerald-glow: rgba(16, 185, 129, 0.15);
+            --nature-bg: #f8fafc;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
+            background-color: var(--nature-bg);
             background-image: 
-                radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 100% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 50%);
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(59, 130, 246, 0.08) 0px, transparent 50%);
             min-height: 100vh;
-            color: #f8fafc;
-            overflow-x: hidden;
+            color: #1e293b;
         }
 
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .subject-card {
-            background: rgba(30, 41, 59, 0.4);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .subject-card:hover {
-            background: rgba(30, 41, 59, 0.6);
-            border-color: var(--primary);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px -10px var(--primary-glow);
-        }
-
-        .subject-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-
-        .subject-card:hover::before {
-            opacity: 1;
-        }
-
-        .credit-badge {
-            background: rgba(16, 185, 129, 0.1);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.2);
-        }
-
-        .btn-main {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn-main:hover {
-            box-shadow: 0 0 35px rgba(16, 185, 129, 0.5);
-            transform: scale(1.02) translateY(-2px);
-        }
-
+        /* Surya Badge - Premium Highlighting */
         .surya-badge {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
-            animation: softPulse 3s infinite;
+            background: white;
+            border: 2px solid #10b981;
+            box-shadow: 0 10px 25px -5px var(--emerald-glow);
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        
+        .surya-badge:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.3);
         }
 
-        @keyframes softPulse {
-            0%, 100% { opacity: 0.8; box-shadow: 0 0 10px rgba(16, 185, 129, 0.1); }
-            50% { opacity: 1; box-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
+        .nature-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 28px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .electric-text {
-            text-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        .nature-card:hover {
+            border-color: #10b981;
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.12);
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            box-shadow: 0 12px 24px -6px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-ai {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+        }
+
+        .sgpa-text {
+            background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: clamp(5rem, 15vw, 10rem);
         }
 
         select {
-            background-color: #0f172a !important;
-            border: 1px solid #334155 !important;
-            color: #f1f5f9 !important;
-            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.25rem;
         }
 
-        select:focus {
-            border-color: #10b981 !important;
-            ring: 2px solid rgba(16, 185, 129, 0.2);
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top: 3px solid #ffffff;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
         }
 
-        /* Animated Grid Lines */
-        .grid-bg {
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Grid circuit background */
+        .circuit-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-image: 
-                linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-image: radial-gradient(#10b981 0.5px, transparent 0.5px);
+            background-size: 30px 30px;
+            opacity: 0.05;
             z-index: -1;
         }
     </style>
 </head>
-<body class="p-4 md:p-12 relative">
-    <div class="grid-bg"></div>
+<body class="py-10 px-4 md:py-20">
+    <div class="circuit-overlay"></div>
 
-    <div class="max-w-5xl mx-auto glass-panel p-8 md:p-14 rounded-[3rem] relative">
-        <!-- Prominent Surya Highlighting -->
-        <div class="absolute top-8 right-8 z-10">
-            <div class="surya-badge px-4 py-1.5 rounded-full flex items-center gap-2">
-                <span class="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span>
-                <span class="text-[11px] font-black uppercase tracking-widest text-emerald-400">Data input by surya</span>
+    <div class="max-w-5xl mx-auto">
+        <!-- Prominent Attribution -->
+        <div class="flex justify-center mb-12">
+            <div class="surya-badge px-10 py-3 rounded-full inline-flex items-center gap-4">
+                <span class="relative flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                </span>
+                <span class="text-sm md:text-base font-black uppercase tracking-[0.4em] text-emerald-800">Designed by Surya</span>
             </div>
         </div>
 
-        <header class="text-center mb-16">
-            <div class="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-emerald-950/30 border border-emerald-500/20 text-emerald-400 text-xs font-bold uppercase tracking-[0.3em] mb-6">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                Electrical Engineering Console
+        <div class="bg-white/40 backdrop-blur-xl border border-white/50 rounded-[3.5rem] p-8 md:p-16 shadow-2xl">
+            <header class="text-center mb-16">
+                <div class="inline-block px-5 py-2 bg-emerald-50 text-emerald-700 text-[11px] font-black uppercase tracking-[0.2em] rounded-full mb-6 border border-emerald-100">
+                    SVNIT Surat • Dept. of Electrical Engineering
+                </div>
+                <h1 class="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-tight">
+                    Academic <span class="text-emerald-500 italic">Console</span>
+                </h1>
+                <p class="text-slate-500 mt-4 text-xs md:text-base font-bold uppercase tracking-[0.3em] opacity-60">First Semester SGPA/CGPA Analysis</p>
+            </header>
+
+            <!-- API Configuration (For GitHub Compatibility) -->
+            <div class="flex justify-end mb-6">
+                <button onclick="document.getElementById('api-modal').classList.toggle('hidden')" class="text-[10px] font-black text-slate-400 hover:text-emerald-500 transition-colors uppercase tracking-widest flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    AI Engine Config
+                </button>
             </div>
-            <h1 class="text-6xl md:text-7xl font-black text-white tracking-tighter mb-4">SVNIT <span class="text-emerald-500 italic">SURAT</span></h1>
-            <p class="text-slate-400 text-lg font-light tracking-wide max-w-xl mx-auto uppercase">B.Tech Semester I CGPA Analyzer</p>
-        </header>
-
-        <div id="calculator-form" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Basic Electrical -->
-            <div class="subject-card p-6 rounded-3xl group">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 class="font-bold text-white text-lg">BEE (EE101)</h3>
-                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Theory</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">4.0 Credits</span>
-                        </div>
-                        <select id="bee_t" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="4">
-                            <option value="10">AA</option><option value="9">AB</option><option value="8" selected>BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Practical</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">1.0 Credits</span>
-                        </div>
-                        <select id="bee_p" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="1">
-                            <option value="10">AA</option><option value="9" selected>AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Engineering Drawing -->
-            <div class="subject-card p-6 rounded-3xl group">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 class="font-bold text-white text-lg">ED (ME110)</h3>
-                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Theory</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">2.0 Credits</span>
-                        </div>
-                        <select id="ed_t" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="2">
-                            <option value="10">AA</option><option value="9">AB</option><option value="8" selected>BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Practical</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">2.0 Credits</span>
-                        </div>
-                        <select id="ed_p" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="2">
-                            <option value="10" selected>AA</option><option value="9">AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Physics -->
-            <div class="subject-card p-6 rounded-3xl group">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 class="font-bold text-white text-lg">Physics (PH109)</h3>
-                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.183.394l-1.141.76a2 2 0 000 3.328l1.141.76a2 2 0 001.183.394l2.535-.254a6 6 0 013.86-.517l.318-.158a6 6 0 003.86-.517l2.387.477a2 2 0 001.022-.547l1.141-.76a2 2 0 000-3.328l-1.141-.76z"/></svg>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Theory</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">3.0 Credits</span>
-                        </div>
-                        <select id="ph_t" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="3">
-                            <option value="10" selected>AA</option><option value="9">AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Practical</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">1.0 Credits</span>
-                        </div>
-                        <select id="ph_p" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="1">
-                            <option value="10" selected>AA</option><option value="9">AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Maths -->
-            <div class="subject-card p-6 rounded-3xl group">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 class="font-bold text-white text-lg">Maths-I (MA113)</h3>
-                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Overall</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">4.0 Credits</span>
-                        </div>
-                        <select id="ma_t" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="4">
-                            <option value="10">AA</option><option value="9">AB</option><option value="8" selected>BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- English -->
-            <div class="subject-card p-6 rounded-3xl group">
-                <div class="flex justify-between items-start mb-6">
-                    <h3 class="font-bold text-white text-lg">English (HS110)</h3>
-                    <div class="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5a18.022 18.022 0 01-3.827-5.802M10.403 6.052a18.01 18.01 0 013.476 5.874M12 18.51a3.001 3.001 0 01-2.458-2.458M7.242 17.242a3 3 0 11-4.242-4.242M3 10.242a3 3 0 114.242 4.242M10.897 12.827a19.938 19.938 0 002.53-4.43m-3.116 1.262a18.978 18.978 0 00-2.134 4.39M8 11a1 1 0 010-2 1 1 0 010 2z"/></svg>
-                    </div>
-                </div>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between mb-1">
-                            <label class="text-[10px] font-bold text-slate-500 uppercase">Overall</label>
-                            <span class="text-[9px] credit-badge px-2 rounded-full">4.0 Credits</span>
-                        </div>
-                        <select id="hs_t" class="grade-input w-full p-3 rounded-xl outline-none transition-all" data-credits="4">
-                            <option value="10">AA</option><option value="9">AB</option><option value="8">BB</option><option value="7" selected>BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Empty slots for spacing on grid if needed -->
-        </div>
-
-        <div class="text-center mt-16">
-            <button id="calculate-btn" class="btn-main text-slate-900 font-black py-5 px-20 rounded-2xl text-xl transition-all tracking-[0.3em] uppercase">
-                Initialize Matrix
-            </button>
-        </div>
-
-        <!-- Result -->
-        <div id="result-card" class="hidden mt-16 p-14 border border-emerald-500/20 bg-emerald-500/5 rounded-[4rem] text-center relative overflow-hidden">
-            <div class="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent"></div>
-            <h3 class="text-emerald-500 font-bold uppercase tracking-[0.5em] mb-4 text-sm">Calculated Outcome</h3>
-            <div id="sgpa-display" class="text-[10rem] font-black text-white electric-text leading-none my-8">0.00</div>
-            <div id="performance-msg" class="text-2xl font-bold tracking-tight text-emerald-300 mb-10"></div>
             
-            <button id="ai-insights-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 px-10 rounded-2xl text-md transition-all flex items-center gap-3 mx-auto shadow-xl">
-                <span class="tracking-widest uppercase">✨ Run AI Diagnostic</span>
-                <div id="ai-loader" class="loader hidden"></div>
-            </button>
-        </div>
+            <div id="api-modal" class="hidden mb-10 p-6 bg-emerald-50/50 border border-emerald-100 rounded-3xl">
+                <label class="block text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-3">Gemini Pro API Key (for Diagnostics)</label>
+                <input type="password" id="custom-api-key" placeholder="PASTE_YOUR_GEMINI_API_KEY_HERE" class="w-full p-4 bg-white border border-emerald-200 rounded-2xl outline-none focus:ring-2 focus:ring-emerald-500 transition-all font-mono text-xs">
+                <p class="text-[9px] text-emerald-600/60 mt-2 font-bold uppercase tracking-tighter italic">*Required if hosting on GitHub Pages</p>
+            </div>
 
-        <!-- AI Insights Content -->
-        <div id="ai-insights-container" class="hidden mt-10 p-10 glass-panel border border-blue-500/30 rounded-[3rem] animate-in zoom-in duration-500">
-            <div class="flex items-center gap-4 mb-6 text-blue-400">
-                <div class="w-12 h-12 flex items-center justify-center bg-blue-500/20 rounded-2xl">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <div id="calculator-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <!-- Subject Cards -->
+                <div class="nature-card p-8">
+                    <h3 class="font-black text-slate-800 text-lg uppercase tracking-tight mb-6 flex items-center gap-3">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span> BEE (EE101)
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Theory Grade (4 Cr)</label>
+                            <select id="bee_t" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="4">
+                                <option value="10">AA</option><option value="9">AB</option><option value="8" selected>BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Practical Grade (1 Cr)</label>
+                            <select id="bee_p" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="1">
+                                <option value="10">AA</option><option value="9" selected>AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-                <h3 class="font-black text-2xl uppercase tracking-tighter">Roadmap Diagnostic</h3>
-            </div>
-            <div id="ai-response-text" class="text-slate-300 text-base leading-relaxed space-y-5 font-light">
-                <!-- AI Response will go here -->
-            </div>
-        </div>
 
-        <footer class="mt-24 pt-10 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-6">
-            <p class="text-[10px] text-slate-500 uppercase tracking-[0.4em] font-bold">SVNIT Surat • Dept. of Electrical Engineering</p>
-            <div class="flex items-center gap-3">
-                <span class="text-[10px] text-slate-500 uppercase font-black">Architect:</span>
-                <span class="text-[11px] text-emerald-400 font-black uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-md">Suryaprakash Tiwari</span>
+                <div class="nature-card p-8">
+                    <h3 class="font-black text-slate-800 text-lg uppercase tracking-tight mb-6 flex items-center gap-3">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span> Drawing (ME110)
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Theory Grade (2 Cr)</label>
+                            <select id="ed_t" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="2">
+                                <option value="10">AA</option><option value="9">AB</option><option value="8" selected>BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Practical Grade (2 Cr)</label>
+                            <select id="ed_p" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="2">
+                                <option value="10" selected>AA</option><option value="9">AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nature-card p-8">
+                    <h3 class="font-black text-slate-800 text-lg uppercase tracking-tight mb-6 flex items-center gap-3">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span> Physics (PH109)
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Theory Grade (3 Cr)</label>
+                            <select id="ph_t" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="3">
+                                <option value="10" selected>AA</option><option value="9">AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Practical Grade (1 Cr)</label>
+                            <select id="ph_p" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="1">
+                                <option value="10" selected>AA</option><option value="9">AB</option><option value="8">BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nature-card p-8">
+                    <h3 class="font-black text-slate-800 text-lg uppercase tracking-tight mb-6 flex items-center gap-3">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span> Core Subjects
+                    </h3>
+                    <div class="space-y-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Mathematics-I (4 Cr)</label>
+                            <select id="ma_t" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="4">
+                                <option value="10">AA</option><option value="9">AB</option><option value="8" selected>BB</option><option value="7">BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block">English / EPC (4 Cr)</label>
+                            <select id="hs_t" class="grade-input w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:border-emerald-500 font-bold transition-all" data-credits="4">
+                                <option value="10">AA</option><option value="9">AB</option><option value="8">BB</option><option value="7" selected>BC</option><option value="6">CC</option><option value="5">CD</option><option value="4">DD</option><option value="0">FF</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </footer>
+
+            <div class="text-center">
+                <button id="calculate-btn" class="btn-calculate text-white font-black py-6 px-20 rounded-3xl text-xl tracking-[0.2em] uppercase transition-all hover:scale-105 active:scale-95 shadow-xl">
+                    Run Calculation
+                </button>
+            </div>
+
+            <!-- Result Interface -->
+            <div id="result-card" class="hidden mt-20 p-12 md:p-20 border-2 border-emerald-500 bg-white rounded-[4rem] text-center shadow-2xl animate-in zoom-in duration-500">
+                <h3 class="text-emerald-600 font-black uppercase tracking-[0.6em] text-sm mb-6">Aggregated SGPA</h3>
+                <div id="sgpa-display" class="sgpa-text font-black tracking-tighter my-10">0.00</div>
+                <p id="performance-msg" class="text-2xl font-bold text-slate-600 mb-12 italic"></p>
+                
+                <button id="ai-insights-btn" class="btn-ai text-white font-black py-5 px-10 rounded-2xl flex items-center gap-4 mx-auto transition-all hover:shadow-2xl active:scale-95">
+                    <span class="tracking-widest uppercase text-sm">✨ Neural Roadmap Diagnostic</span>
+                    <div id="ai-loader" class="loader hidden"></div>
+                </button>
+            </div>
+
+            <!-- AI Insight Panel -->
+            <div id="ai-insights-container" class="hidden mt-12 nature-card p-10 md:p-16 border-blue-100 bg-blue-50/20 animate-in slide-in-from-bottom-10 duration-700">
+                <div class="flex items-center gap-6 mb-10">
+                    <div class="w-16 h-16 bg-blue-100 rounded-3xl flex items-center justify-center text-blue-600 shadow-xl">
+                        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-black text-3xl text-blue-900 tracking-tighter">Diagnostic Roadmap</h3>
+                        <p class="text-[10px] font-black text-blue-400 uppercase tracking-widest">Neural Analysis Engine Active</p>
+                    </div>
+                </div>
+                <div id="ai-response-text" class="text-slate-700 space-y-6 leading-relaxed text-lg font-medium">
+                    <!-- AI Content -->
+                </div>
+            </div>
+
+            <footer class="mt-24 pt-10 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-6">
+                <p class="text-[10px] text-slate-400 font-black uppercase tracking-[0.4em]">SVNIT • Electrical Dept 2024</p>
+                <div class="text-[11px] font-black text-emerald-600 uppercase tracking-widest bg-emerald-50 px-5 py-2 rounded-xl">
+                    Architect: Suryaprakash Tiwari
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script>
-        const apiKey = ""; 
+        const apiKey = ""; // Provided by environment at runtime or custom key input
+
+        async function fetchGemini(userQuery, systemPrompt) {
+            const customKey = document.getElementById('custom-api-key').value;
+            const activeKey = apiKey || customKey;
+            
+            if (!activeKey) {
+                alert("Please enter a Gemini API Key in the 'AI Engine Config' section to enable diagnostics on GitHub.");
+                return null;
+            }
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${activeKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
+
+            for (let i = 0; i < 5; i++) {
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (response.ok) return await response.json();
+                } catch (e) {}
+                await new Promise(r => setTimeout(r, Math.pow(2, i) * 1000));
+            }
+            throw new Error('Neural response failure.');
+        }
 
         async function getAIInsights(grades, sgpa) {
             const aiBtn = document.getElementById('ai-insights-btn');
@@ -328,109 +303,68 @@
             aiBtn.disabled = true;
             aiLoader.classList.remove('hidden');
             
-            const systemPrompt = "You are a senior academic mentor at SVNIT Surat, Electrical Engineering Department. Analyze a student's 1st-semester performance and suggest a strategic roadmap for the 2nd semester (Electrical Circuits EE102, Electronics Devices EC108, Programming CS110, Applied Thermal ME108, and Maths-II MA114). Use a supportive but highly technical 'engineer' tone. Refer to specific SVNIT course codes.";
-            
-            const userQuery = `My 1st sem SGPA is ${sgpa}. My grades are:
-            BEE Theory: ${grades.bee_t}, BEE Practical: ${grades.bee_p}
-            Physics Theory: ${grades.ph_t}, Physics Practical: ${grades.ph_p}
-            Drawing Theory: ${grades.ed_t}, Drawing Practical: ${grades.ed_p}
-            Maths-I: ${grades.ma_t}, English: ${grades.hs_t}.
-            Give me a 'Roadmap Diagnostic' for Sem-II. Include 3 technical tips and one project idea that aligns with these grades. Keep it punchy and professional.`;
+            const systemPrompt = "You are a senior mentor at SVNIT Surat Electrical Engineering. Analyze 1st-sem grades and map a technical strategy for 2nd-sem core courses (Circuits EE102, Electronics EC108, Programming CS110, Maths-II MA114). Use specific SVNIT curriculum references and a professional engineer tone.";
+            const userQuery = `SGPA: ${sgpa}. Grades: BEE(${grades.bee_t}/${grades.bee_p}), Physics(${grades.ph_t}/${grades.ph_p}), ED(${grades.ed_t}/${grades.ed_p}), Maths(${grades.ma_t}), English(${grades.hs_t}). Provide a 3-point Roadmap Diagnostic.`;
 
-            let retries = 0;
-            const maxRetries = 5;
+            try {
+                const data = await fetchGemini(userQuery, systemPrompt);
+                if (!data) return;
+                
+                const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Diagnostic data unavailable.";
+                
+                container.classList.remove('hidden');
+                responseText.innerHTML = text
+                    .replace(/\n\n/g, '<br><br>')
+                    .replace(/\* \*\*(.*?)\*\*/g, '<br>• <strong class="text-blue-800">$1</strong>')
+                    .replace(/\* (.*?)/g, '• $1');
 
-            async function makeCall() {
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: userQuery }] }],
-                            systemInstruction: { parts: [{ text: systemPrompt }] }
-                        })
-                    });
-
-                    if (!response.ok) throw new Error('API request failed');
-
-                    const data = await response.json();
-                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Diagnostic failed to initialize. Re-running cycle...";
-                    
-                    container.classList.remove('hidden');
-                    responseText.innerHTML = text
-                        .replace(/\n\n/g, '<br><br>')
-                        .replace(/\* \*\*(.*?)\*\*/g, '<br>• <strong class="text-blue-400">$1</strong>')
-                        .replace(/\* (.*?)/g, '• $1');
-
-                    container.scrollIntoView({ behavior: 'smooth' });
-                } catch (error) {
-                    if (retries < maxRetries) {
-                        retries++;
-                        const delay = Math.pow(2, retries) * 1000;
-                        setTimeout(makeCall, delay);
-                    } else {
-                        responseText.innerHTML = "<span class='text-red-400'>CRITICAL SYSTEM ERROR: UNABLE TO REACH AI MENTOR.</span>";
-                        container.classList.remove('hidden');
-                    }
-                } finally {
-                    aiBtn.disabled = false;
-                    aiLoader.classList.add('hidden');
-                }
+                container.scrollIntoView({ behavior: 'smooth' });
+            } catch (error) {
+                responseText.innerHTML = "<span class='text-red-500 font-black tracking-widest uppercase'>ENGINE ERROR: Unable to synchronize with Neural Engine. Verify API Key.</span>";
+                container.classList.remove('hidden');
+            } finally {
+                aiBtn.disabled = false;
+                aiLoader.classList.add('hidden');
             }
-
-            makeCall();
         }
 
         document.getElementById('calculate-btn').addEventListener('click', function() {
             const gradeInputs = document.querySelectorAll('.grade-input');
-            let totalWeightedPoints = 0;
+            let totalPoints = 0;
             let totalCredits = 0;
 
             gradeInputs.forEach(input => {
-                const gradePoint = parseFloat(input.value);
-                const credits = parseFloat(input.getAttribute('data-credits'));
-                totalWeightedPoints += (gradePoint * credits);
-                totalCredits += credits;
+                totalPoints += (parseFloat(input.value) * parseFloat(input.getAttribute('data-credits')));
+                totalCredits += parseFloat(input.getAttribute('data-credits'));
             });
 
-            const sgpa = (totalWeightedPoints / totalCredits).toFixed(2);
-            
+            const sgpa = (totalPoints / totalCredits).toFixed(2);
             const resultCard = document.getElementById('result-card');
             const sgpaDisplay = document.getElementById('sgpa-display');
             const msgDisplay = document.getElementById('performance-msg');
-            const aiContainer = document.getElementById('ai-insights-container');
             
             resultCard.classList.remove('hidden');
-            aiContainer.classList.add('hidden'); 
+            document.getElementById('ai-insights-container').classList.add('hidden');
             sgpaDisplay.textContent = sgpa;
 
-            if (sgpa >= 9.0) msgDisplay.textContent = "SYSTEM STATUS: PEAK PERFORMANCE";
-            else if (sgpa >= 8.0) msgDisplay.textContent = "SYSTEM STATUS: STABLE / OPTIMIZED";
-            else if (sgpa >= 7.0) msgDisplay.textContent = "SYSTEM STATUS: FUNCTIONAL / MODERATE";
-            else msgDisplay.textContent = "SYSTEM STATUS: LOW VOLTAGE / CRITICAL";
+            if (sgpa >= 9.5) msgDisplay.textContent = "PEAK PERFORMANCE / BATCH ELITE";
+            else if (sgpa >= 8.5) msgDisplay.textContent = "STABLE FREQUENCY / HIGH EFFICIENCY";
+            else if (sgpa >= 7.5) msgDisplay.textContent = "NOMINAL OUTPUT / FUNCTIONAL STATUS";
+            else if (sgpa >= 6.0) msgDisplay.textContent = "MAINTENANCE REQUIRED / LOW FACTOR";
+            else msgDisplay.textContent = "SYSTEM CRITICAL / REBOOT REQUIRED";
 
             resultCard.scrollIntoView({ behavior: 'smooth' });
         });
 
         document.getElementById('ai-insights-btn').addEventListener('click', function() {
-            const getSelectedGrade = (id) => {
-                const el = document.getElementById(id);
-                return el.options[el.selectedIndex].text;
-            };
-
+            const getT = (id) => document.getElementById(id).options[document.getElementById(id).selectedIndex].text;
             const grades = {
-                bee_t: getSelectedGrade('bee_t'),
-                bee_p: getSelectedGrade('bee_p'),
-                ed_t: getSelectedGrade('ed_t'),
-                ed_p: getSelectedGrade('ed_p'),
-                ph_t: getSelectedGrade('ph_t'),
-                ph_p: getSelectedGrade('ph_p'),
-                ma_t: getSelectedGrade('ma_t'),
-                hs_t: getSelectedGrade('hs_t'),
+                bee_t: getT('bee_t'), bee_p: getT('bee_p'),
+                ed_t: getT('ed_t'), ed_p: getT('ed_p'),
+                ph_t: getT('ph_t'), ph_p: getT('ph_p'),
+                ma_t: getT('ma_t'), hs_t: getT('hs_t')
             };
-
-            const sgpa = document.getElementById('sgpa-display').textContent;
-            getAIInsights(grades, sgpa);
+            getAIInsights(grades, document.getElementById('sgpa-display').textContent);
         });
     </script>
 </body>
